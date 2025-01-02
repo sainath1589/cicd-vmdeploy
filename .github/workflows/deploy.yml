@@ -34,4 +34,9 @@ jobs:
       # Step 5: Apply Terraform Configuration
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        
+      # Step 6: Set Terraform Environment Variables
+      - name: Set Terraform Environment Variables
+        run: echo "TF_VAR_gcp_credentials=${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" >> $GITHUB_ENV
+
 
