@@ -3,6 +3,7 @@ provider "google" {
   project = "future-lane-444809-c3" # Replace with your GCP project ID
   region  = "us-central1"         # Replace with your preferred region
   zone    = "us-central1-a"       # Replace with your preferred zone
+  credentials = file("key-json") 
   
 }
 resource "google_compute_instance" "example" {
