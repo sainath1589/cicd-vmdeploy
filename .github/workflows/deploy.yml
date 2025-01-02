@@ -32,5 +32,5 @@ jobs:
         run: terraform init
 
       # Step 5: Apply Terraform Configuration
+      - name: Terraform Apply
         run: terraform apply -auto-approve
-
