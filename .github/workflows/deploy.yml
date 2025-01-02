@@ -3,7 +3,7 @@ name: Deploy VM on GCP
 on:
   push:
     branches:
-      - main # Trigger deployment on pushes to the main branch
+      - main # Trigger on pushes to the main branch
 
 jobs:
   terraform:
@@ -11,21 +11,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Checkout the Code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Terraform
+      # Step 2: Authenticate with GCP
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      # Step 3: Set up Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.6 # Specify the Terraform version you want to use
-
-      # Step 3: Authenticate with GCP
-      - name: Set GOOGLE_CREDENTIALS Environment Variable
-        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" > gcp-key.json
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          terraform_version: 1.5.6
 
       # Step 4: Initialize Terraform
       - name: Terraform Init
@@ -33,7 +33,5 @@ jobs:
 
       # Step 5: Apply Terraform Configuration
       - name: Terraform Apply
-        env:
-          TF_VAR_gcp_credentials: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
         run: terraform apply -auto-approve
 
