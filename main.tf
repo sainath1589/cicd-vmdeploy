@@ -7,7 +7,6 @@ provider "google" {
 
 variable "gcp_credentials" {
   type        = string
-  description = "GCP Service Account JSON Key"
+  default     = null
+  description = "Service account key in JSON format"
 }
-
-
